@@ -9,15 +9,15 @@ public class Budget {
 
     }
 
-    public synchronized void sendPayment(BigDecimal amount, String payable) {
+    public synchronized boolean sendPayment(BigDecimal amount, String payable) {
         if (amount.signum() < 0) {
             System.out.println("Cannot pay a negative amount.");
-            return;
+            return false;
         }
 
         if (this.totalMoney.subtract(amount).signum() < 0) {
             System.out.println("Insufficient fund to pay for " + payable);
-            return;
+            return false;
         }
 
         System.out.println("Payment for " + payable + " with an amount Php " + amount + " is successful.");
@@ -25,6 +25,7 @@ public class Budget {
 
         this.totalMoney = this.totalMoney.subtract(amount);
         this.totalExpenses = this.totalExpenses.add(amount);
+        return true;
     }
 
     public synchronized BigDecimal getTotalMoney() {
